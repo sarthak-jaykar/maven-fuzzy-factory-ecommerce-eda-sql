@@ -2,11 +2,11 @@
 
 Where an online toy store loses visitors, which marketing channels earn revenue after refunds, and what to fix first. Built in PostgreSQL on the Maven Fuzzy Factory dataset.
 
-!\[PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql\&logoColor=white)
-!\[pgAdmin](https://img.shields.io/badge/pgAdmin-4-336791)
-!\[SQL](https://img.shields.io/badge/SQL-CTEs%20%7C%20Window%20Functions-informational)
-!\[Domain](https://img.shields.io/badge/Domain-Business%20Analysis-success)
-!\[Data Model](https://img.shields.io/badge/Data%20Model-Relational-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql\&logoColor=white)
+![pgAdmin](https://img.shields.io/badge/pgAdmin-4-336791)
+![SQL](https://img.shields.io/badge/SQL-CTEs%20%7C%20Window%20Functions-informational)
+![Domain](https://img.shields.io/badge/Domain-Business%20Analysis-success)
+![Data Model](https://img.shields.io/badge/Data%20Model-Relational-blue)
 
 \---
 
