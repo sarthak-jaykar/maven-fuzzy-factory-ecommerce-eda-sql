@@ -1,0 +1,8 @@
+"step_no","step","sessions","pct_of_all_sessions","pct_of_previous_step","sessions_lost_from_previous"
+1,"All sessions",472871,100.00,NULL,NULL
+2,"Product list page",261231,55.24,55.24,211640
+3,"Product detail page",210214,44.45,80.47,51017
+4,"Cart",94953,20.08,45.17,115261
+5,"Shipping",64484,13.64,67.91,30469
+6,"Billing",52058,11.01,80.73,12426
+7,"Thank-you (order confirmed)",32313,6.83,62.07,19745

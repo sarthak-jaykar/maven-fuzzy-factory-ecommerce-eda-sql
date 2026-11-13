@@ -1,0 +1,8 @@
+"utm_source","utm_campaign","sessions","orders","conversion_pct","gross_revenue_usd","refunds_usd","net_revenue_usd","refund_pct_of_gross","net_revenue_rank"
+"gsearch","nonbrand",282706,18822,6.66,1124414.21,50303.82,1074110.39,4.47,1
+NULL,NULL,83328,6118,7.34,371433.03,15692.80,355740.23,4.22,2
+"bsearch","nonbrand",54909,3818,6.95,225563.48,9704.03,215859.45,4.30,3
+"gsearch","brand",33329,2511,7.53,151730.68,6750.64,144980.04,4.45,4
+"bsearch","brand",7914,701,8.86,43109.02,1855.62,41253.40,4.30,5
+"socialbook","desktop_targeted",5590,288,5.15,18516.10,885.81,17630.29,4.78,6
+"socialbook","pilot",5095,55,1.08,3743.23,145.97,3597.26,3.90,7

@@ -1,0 +1,72 @@
+INTERVIEW PREP (PERSONAL, NOT FOR GITHUB)
+Project: Maven Fuzzy Factory: E-commerce Funnel, Channel and Refund Analysis (PostgreSQL)
+
+1. ONE-MINUTE PITCH
+An online toy store wanted to know where visitors are lost, which marketing channels earn revenue after refunds, and what to fix first. I used six linked tables (32k orders, 473k sessions, 1.2m page views) in PostgreSQL. I built a funnel, channel, device, refund and basket analysis, checked every result against an independent Python calculation, and turned the findings into prioritised actions with owners and measures.
+
+2. WHY THIS PROBLEM
+Marketing wants budget where it earns money after refunds. The website lead wants the page to fix first. Merchandising wants to know which products drive refunds. Each question maps to a decision (see documentation/01_business_brief.md).
+
+3. DATA AND GRAIN (know these cold)
+- orders: one order. order_items: one item in an order. order_item_refunds: one refunded item.
+- website_sessions: one visit. website_pageviews: one page view in a session.
+- products: one product (4 rows).
+- Relationships: orders to order_items is one to many. Items to refunds is one to at most one. Sessions to orders is one to at most one. Sessions to page views is one to many.
+
+4. JOIN TRAPS I HANDLED
+- Fan-out: joining items to refunds before aggregating double counts revenue. Refunds are aggregated to item level first (view analytics.v_order_items_enriched).
+- Mixed grain: revenue is summed at item level, but orders are counted at order level. Never mix the two in one count.
+- Orders with several items: 7,712 orders. Line count is not order count.
+- Blank UTM: 83,328 sessions have no UTM. Kept as "(no utm)", not dropped and not assigned to a channel.
+
+5. DATA QUALITY DECISIONS (say why, not just what)
+- Partial months: March 2012 and March 2015 are partial. I show them but do not claim trends from them.
+- Referrer blanks: kept, not used to infer channel.
+- Checks: row counts, primary keys, orphan keys and business rules (items purchased equals item count; order price equals sum of item prices). I ran them in pgAdmin.
+
+6. KPI DEFINITIONS (know the formula, not just the name)
+- Conversion rate = sessions with an order / all sessions. Overall 6.83%.
+- Funnel step rate = sessions reaching a step / sessions reaching the previous step.
+- Net revenue = gross revenue minus refunds, at item level.
+- Refund rate (items) = refunded items / items sold.
+- Average order value = revenue / orders.
+
+7. THE NUMBERS TO KNOW
+- Funnel: 472,871 sessions; 261,231 product list (55.24%); 210,214 product detail; 94,953 cart (45.17% of product detail); 64,484 shipping; 52,058 billing; 32,313 orders.
+- Biggest loss: product detail to cart, 115,261 sessions.
+- Desktop 8.50% conversion (327,027 sessions). Mobile 3.09% (145,844 sessions).
+- Refund rates by product: Birthday Sugar Panda 6.04%; Original Mr. Fuzzy 5.11%; Forever Love Bear 2.23%; Hudson River Mini bear 1.28%.
+- socialbook pilot: 1.08% conversion on 5,095 sessions. No UTM: 7.34%. gsearch nonbrand: 6.66%.
+- Multi-item orders: 23.87% of orders; average $89.25 against $50.82.
+- Repeat sessions: 16.61% of sessions; conversion 7.83% against 6.64%; average order value $60.54 against $59.86.
+
+8. LIKELY QUESTIONS AND HOW TO ANSWER
+Q: Why PostgreSQL and not Excel?
+A: The data is relational, with one to many joins and about a million rows of page views. SQL keeps grain explicit, lets me build reusable views, and handles the volume. Excel would need manual joins that are hard to audit.
+
+Q: How did you avoid double counting revenue?
+A: By aggregating refunds to item level before joining, and by summing revenue at item grain while counting orders at order grain.
+
+Q: What is the biggest insight?
+A: The loss between the product detail page and the cart. It is the largest absolute loss, and the product page is the cheapest place to test.
+
+Q: Is the device finding causal?
+A: No. It is an association. Before spending on a mobile fix, I would confirm the device field is recorded consistently and check the mobile journey for technical faults.
+
+Q: What would you do with more data?
+A: Acquisition cost by channel, to calculate return on ad spend; cost of goods and shipping, for profit rather than margin; customer IDs over time, for real retention analysis.
+
+Q: Why is the multi-item finding not a recommendation on its own?
+A: Multi-item buyers may differ in other ways, such as intent or product mix. I recommended a test with a control group, not a rollout.
+
+Q: What are the limits?
+A: It is a fictional sample, so it shows method rather than real performance. There is no cost data. March 2012 and March 2015 are partial.
+
+Q: How did you validate the results?
+A: Row counts and keys in SQL, plus an independent pandas calculation. Nine of eleven result files match, with differences only from rounding.
+
+Q: What would you do differently?
+A: Store the funnel steps as a lookup table, not hard-coded URLs, so new pages are added without editing queries.
+
+9. ONE-LINE SUMMARY FOR THE INTERVIEWER
+"I used SQL to show where an online store loses visitors and which channels earn money after refunds, and I turned that into prioritised actions with owners and measures."

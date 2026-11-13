@@ -1,0 +1,3 @@
+"order_type","orders","pct_of_orders","revenue_usd","avg_order_value_usd","avg_items_per_order"
+"Multi-item order",7712,23.87,688301.76,89.25,2.00
+"Single-item order",24601,76.13,1250207.99,50.82,1.00

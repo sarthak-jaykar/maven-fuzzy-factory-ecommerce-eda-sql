@@ -1,0 +1,62 @@
+HOW TO RUN: Maven Fuzzy Factory — E-Commerce Funnel, Channel and Refund Analysis
+Tools: PostgreSQL, pgAdmin 4 (Windows). Time: about 45 to 60 minutes.
+
+1. WHAT YOU NEED
+- PostgreSQL installed and running. pgAdmin 4 connected to the server.
+- The six CSV files from the Maven Fuzzy Factory dataset.
+
+2. DATA FILES (place in the data/ folder of this project)
+The six source CSV files are included in `data/`. For PostgreSQL bulk loading, copy them to `C:/fuzzy_factory_raw/` using the exact filenames below:
+
+   File                      Expected rows
+   orders.csv                32,313
+   order_items.csv           40,025
+   order_item_refunds.csv    1,731
+   products.csv              4
+   website_sessions.csv      472,871
+   website_pageviews.csv     1,188,124
+
+The load script reads the files from C:\fuzzy_factory_raw\. Copy the six files from data\ into that folder. Create the folder first if it does not exist. If you prefer another folder, edit the paths in script\01_load\01_load_raw.sql.
+
+3. CREATE THE DATABASE
+In pgAdmin: right-click Databases > Create > Database. Name: fuzzy_factory. Owner: postgres. Save.
+
+4. RUN THE SCRIPTS IN THIS ORDER
+Open each file in the Query Tool (File > Open), then press F5.
+
+   Step  File                                             What you should see
+   1     script\00_setup\01_create_schemas.sql            Schemas raw and analytics
+   2     script\00_setup\02_create_raw_tables.sql         Six raw tables
+   3     script\01_load\01_load_raw.sql                   Row counts as in section 2
+   4     script\02_validation\01_row_counts.sql           Every status PASS
+   5     script\02_validation\02_primary_keys.sql         Every duplicate count 0
+   6     script\02_validation\03_keys_and_orphans.sql     Every orphan count 0
+   7     script\02_validation\04_reconciliation.sql       Every violation count 0
+   8     script\03_views\01_order_items_enriched.sql      View created
+   9     script\03_views\02_session_funnel.sql            View created
+   10    script\03_views\03_order_enriched.sql            View created
+   11    script\04_analysis\q1_funnel_drop_off.sql        Matches results\q1_funnel.csv
+   12    script\04_analysis\q2_channel_net_revenue.sql    Matches results\q2_channel.csv
+   13    script\04_analysis\q3_device_conversion.sql      Matches results\q3_device_*.csv
+   14    script\04_analysis\q4_launches_revenue_margin.sql  Matches results\q4_*.csv
+   15    script\04_analysis\q5_refund_rates.sql           Matches results\q5_*.csv
+   16    script\04_analysis\q6_repeat_vs_new.sql          Matches results\q6_repeat.csv
+   17    script\04_analysis\q7_multi_item_orders.sql      Matches results\q7_multi_item.csv
+
+Views (step 8 to 10) must be created before the analysis files (step 11 to 17).
+
+5. OPTIONAL: PYTHON CROSS-CHECK
+Install pandas (pip install pandas), then run from the project folder:
+   python script\02_validation\python_reference_check.py
+It prints the reference values to the console. Compare them with the results in results\.
+
+6. COMPARE
+Counts should match exactly. Money and percentages may differ by 0.01 because of rounding.
+
+7. KNOWN NOTES
+- In one export, the no-UTM channel is labelled NULL instead of (no utm). The numbers are identical. The label comes from script\03_views\02_session_funnel.sql, so re-run that view if you see it.
+- If the load fails with "permission denied", use pgAdmin's Import/Export Data wizard for each table: Import, CSV, Header on, Delimiter comma, Null string empty.
+
+8. TROUBLESHOOTING
+- "relation does not exist": a previous step did not run. Run the steps in order.
+- Row counts differ: check each CSV has its original rows and that the header line was not edited in Excel.
