@@ -2,13 +2,13 @@
 
 Where an online toy store loses visitors, which marketing channels earn revenue after refunds, and what to fix first. Built in PostgreSQL on the Maven Fuzzy Factory dataset.
 
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql\&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
 ![pgAdmin](https://img.shields.io/badge/pgAdmin-4-336791)
 ![SQL](https://img.shields.io/badge/SQL-CTEs%20%7C%20Window%20Functions-informational)
 ![Domain](https://img.shields.io/badge/Domain-Business%20Analysis-success)
 ![Data Model](https://img.shields.io/badge/Data%20Model-Relational-blue)
 
-\---
+---
 
 ## Project Overview
 
@@ -70,8 +70,8 @@ These are proposed management targets, not proven results.
 ## Tools and Methodology
 
 * **PostgreSQL and pgAdmin:** schemas, raw tables, views and seven analysis queries.
-* **SQL techniques:** joins, CTEs, conditional aggregation, window functions (`RANK`, `LAG`, `FIRST\_VALUE`) and reusable views.
-* **Independent check:** a pandas calculation of the same results (`script/02\_validation/`).
+* **SQL techniques:** joins, CTEs, conditional aggregation, window functions (`RANK`, `LAG`, `FIRST_VALUE`) and reusable views.
+* **Independent check:** a pandas calculation of the same results (`script/02_validation/`).
 
 **Data model:** six raw tables keyed on their IDs. Orders relate to order items (one to many), items to refunds (one to at most one), sessions to orders (one to at most one) and sessions to page views (one to many). Three views rebuild the item, session and order grains, so joins do not inflate totals.
 
@@ -84,41 +84,41 @@ These are proposed management targets, not proven results.
 
 **Validation**
 
-* Row counts, primary keys, orphan foreign keys and business rules are checked in `script/02\_validation/`.
+* Row counts, primary keys, orphan foreign keys and business rules are checked in `script/02_validation/`.
 * Nine of the eleven result files match the independent Python calculation, with differences only from rounding. The other two have no Python counterpart yet.
 
 ## Repository Structure
 
 ```text
-maven-fuzzy-factory-ecommerce-sql/
+maven-fuzzy-factory-ecommerce-eda-sql/
 ├── README.md
 ├── data/                              Six source CSV files used by the analysis
 ├── documentation/
-│   ├── 01\_business\_brief.md           Context, stakeholders, decisions, questions
-│   ├── 02\_data\_and\_quality.md         Source, tables, quality decisions, checks
-│   ├── 03\_findings\_and\_recommendations.md  KPI definitions, findings, actions
-│   ├── how\_to\_run.txt                 Step-by-step pgAdmin guide (Windows)
+│   ├── 01_business_brief.md           Context, stakeholders, decisions, questions
+│   ├── 02_data_and_quality.md         Source, tables, quality decisions, checks
+│   ├── 03_findings_and_recommendations.md  KPI definitions, findings, actions
+│   ├── how_to_run.txt                 Step-by-step pgAdmin guide (Windows)
 ├── results/                           Query outputs exported from PostgreSQL
 ├── screenshots/                       pgAdmin screenshots of the database and each question
 └── script/
-    ├── 00\_setup/                      Schemas and raw tables
-    ├── 01\_load/                       Load the six CSV files
-    ├── 02\_validation/                 Row counts, keys, orphans, business rules, and a Python cross-check
-    ├── 03\_views/                      Order-item, session-funnel and order views
-    └── 04\_analysis/                   One file per business question (Q1 to Q7)
+    ├── 00_setup/                      Schemas and raw tables
+    ├── 01_load/                       Load the six CSV files
+    ├── 02_validation/                 Row counts, keys, orphans, business rules, and a Python cross-check
+    ├── 03_views/                      Order-item, session-funnel and order views
+    └── 04_analysis/                   One file per business question (Q1 to Q7)
 ```
 
 ## Analysis
 
 |Business question|SQL file|Result file|
 |-|-|-|
-|Q1. Where do visitors drop off?|`script/04\_analysis/q1\_funnel\_drop\_off.sql`|`results/q1\_funnel.csv`|
-|Q2. Which channels earn revenue after refunds?|`script/04\_analysis/q2\_channel\_net\_revenue.sql`|`results/q2\_channel.csv`|
-|Q3. Does device change conversion?|`script/04\_analysis/q3\_device\_conversion.sql`|`results/q3\_device\_\*.csv`|
-|Q4. Did launches add revenue or move it?|`script/04\_analysis/q4\_launches\_revenue\_margin.sql`|`results/q4\_\*.csv`|
-|Q5. Where are refunds concentrated?|`script/04\_analysis/q5\_refund\_rates.sql`|`results/q5\_\*.csv`|
-|Q6. Do repeat customers behave differently?|`script/04\_analysis/q6\_repeat\_vs\_new.sql`|`results/q6\_repeat.csv`|
-|Q7. Does buying more than one item lift order value?|`script/04\_analysis/q7\_multi\_item\_orders.sql`|`results/q7\_multi\_item.csv`|
+|Q1. Where do visitors drop off?|[SQL](script/04_analysis/q1_funnel_drop_off.sql)|[Result](results/q1_funnel.csv)|
+|Q2. Which channels earn revenue after refunds?|[SQL](script/04_analysis/q2_channel_net_revenue.sql)|[Result](results/q2_channel.csv)|
+|Q3. Does device change conversion?|[SQL](script/04_analysis/q3_device_conversion.sql)|[Monthly](results/q3_device_monthly.csv) · [Overall](results/q3_device_overall.csv)|
+|Q4. Did launches add revenue or move it?|[SQL](script/04_analysis/q4_launches_revenue_margin.sql)|[Monthly](results/q4_monthly.csv) · [By product](results/q4_product_month.csv)|
+|Q5. Where are refunds concentrated?|[SQL](script/04_analysis/q5_refund_rates.sql)|[By month](results/q5_month.csv) · [By product](results/q5_product.csv) · [By source](results/q5_source.csv)|
+|Q6. Do repeat customers behave differently?|[SQL](script/04_analysis/q6_repeat_vs_new.sql)|[Result](results/q6_repeat.csv)|
+|Q7. Does buying more than one item lift order value?|[SQL](script/04_analysis/q7_multi_item_orders.sql)|[Result](results/q7_multi_item.csv)|
 
 ## Documentation
 
@@ -129,10 +129,10 @@ maven-fuzzy-factory-ecommerce-sql/
 
 ## How to Reproduce
 
-1. Create a PostgreSQL database named `fuzzy\_factory` in pgAdmin.
-2. Place the six CSV files in `C:\\fuzzy\_factory\_raw` (see [documentation/how\_to\_run.txt](documentation/how_to_run.txt)).
-3. Run the scripts in `script/` in folder order, following [documentation/how\_to\_run.txt](documentation/how_to_run.txt).
-4. Optional: run `python script/02\_validation/python\_reference\_check.py` after placing the CSVs in `data/`, to recreate the expected values.
+1. Create a PostgreSQL database named `fuzzy_factory` in pgAdmin.
+2. Place the six CSV files in `C:\\fuzzy_factory_raw` (see [documentation/how_to_run.txt](documentation/how_to_run.txt)).
+3. Run the scripts in `script/` in folder order, following [documentation/how_to_run.txt](documentation/how_to_run.txt).
+4. Optional: run `python script/02_validation/python_reference_check.py` after placing the CSVs in `data/`, to recreate the expected values.
 
 ## Limitations
 
@@ -143,5 +143,5 @@ maven-fuzzy-factory-ecommerce-sql/
 
 ## Author
 
-[Sarthak Jaykar](https://www.linkedin.com/in/sarthak-jaykar/)
+[Sarthak Jaykar](https://www.linkedin.com/in/sarthak-jaykar/) · [GitHub](https://github.com/sarthak-jaykar)
 
