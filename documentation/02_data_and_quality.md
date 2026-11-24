@@ -40,4 +40,4 @@ Relationships: orders → order_items (one to many); order_items → refunds (on
 | Items purchased matches item count per order; order price matches sum of item prices | Passed (author run, `04_reconciliation.sql`) |
 | Result tables match an independent Python calculation | 9 of 11 files match, rounding only (`script/02_validation/python_reference_check.py`) |
 
-Note on labels: one export shows `NULL` where the expected label is `(no utm)`. The numbers are identical. The label comes from `sql/03_views/02_session_funnel.sql`, so re-run that view if you see it.
+Note on labels: one export shows `NULL` where the expected label is `(no utm)`. The numbers are identical. The label comes from `script/03_views/02_session_funnel.sql`, so re-run that view if you see it.
